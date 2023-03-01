@@ -89,17 +89,9 @@ const UserForm = () => {
   }, [id]);
 
   const onSubmit = async (values) => {
-    const willPerform = await swal({
-      title: "Are you sure?",
-      text: "Are you sure that you want to Update?",
-      icon: "warning",
-      dangerMode: true,
-      buttons: true,
-    });
-
     setOpen(true);
     const result = id
-      ? willPerform && (await putApiHandler(`/${id}`, values))
+      ? await putApiHandler(`/${id}`, values)
       : await postApiHandler("/", values);
     if (result.status === 200) {
       id
