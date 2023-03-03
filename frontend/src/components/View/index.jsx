@@ -1,11 +1,11 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Avatar, Button, Container } from "@mui/material";
+import { Button, Container } from "@mui/material";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useState } from "react";
 import { useEffect } from "react";
-import { deleteApiHandler, getApiHandler, serverUrl } from "../../apiHandler";
+import { deleteApiHandler, getApiHandler } from "../../apiHandler";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
@@ -39,7 +39,8 @@ export default function ContactTable() {
       renderCell: (params) => {
         return (
           <Button
-            variant="outlined"
+            variant="contained"
+            color="warning"
             // color="warning"
             onClick={() => {
               deleteContact(params.row._id);
@@ -58,8 +59,8 @@ export default function ContactTable() {
       renderCell: (params) => {
         return (
           <Button
-            variant="outlined"
-            // color="info"
+            variant="contained"
+            color="info"
             onClick={() => {
               updateContact(params.row._id);
             }}

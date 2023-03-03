@@ -16,7 +16,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import { styled, alpha } from "@mui/material/styles";
 
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./form.m.css";
 
 const Search = styled("div")(({ theme }) => ({
@@ -108,7 +108,7 @@ function MainLayout({ children }) {
                 textDecoration: "none",
               }}
             >
-              Dollop
+              CRUD
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -175,7 +175,7 @@ function MainLayout({ children }) {
                 textDecoration: "none",
               }}
             >
-              Dollop
+              CRUD
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page) => {

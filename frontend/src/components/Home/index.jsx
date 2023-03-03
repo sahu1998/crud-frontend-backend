@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <MainLayout>
       <div style={{ textAlign: "center" }}>
-        <h1>WELCOM TO DOLLOP INFOTECH</h1>
+        <h1>CRUD OPERATION IN React.Js & Node.Js</h1>
       </div>
     </MainLayout>
   );

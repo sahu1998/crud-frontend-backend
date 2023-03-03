@@ -62,7 +62,7 @@ const UserForm = () => {
   const prefilledForm = async () => {
     setOpen(true);
     const result = await getApiHandler(`/?id=${id}`);
-    if (result.status == 200) {
+    if (result.status === 200) {
       const { name, email, age, contact } = result.response;
       console.log("prefilled: ", result.response);
       setValue("name", name);
