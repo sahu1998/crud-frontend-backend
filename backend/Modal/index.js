@@ -8,7 +8,7 @@ const contactSchema = mongoose.Schema({
   contact: String,
 });
 
-const contactModal = mongoose.model("friends", contactSchema);
+const contactModal = mongoose.model("persons", contactSchema);
 
 const getData = async (id = null) => {
   try {
