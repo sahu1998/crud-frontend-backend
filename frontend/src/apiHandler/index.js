@@ -1,5 +1,5 @@
 import axios from "axios";
-export const serverUrl = "http://localhost:8005/cms";
+export const serverUrl = "https://crud-7x78.onrender.com/cms";
 
 export const postApiHandler = async (endpoint, values) => {
   console.log(values);
