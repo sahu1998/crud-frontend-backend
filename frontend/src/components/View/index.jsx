@@ -15,13 +15,17 @@ export default function ContactTable() {
   const [contact, setContact] = useState([]);
   const history = useNavigate();
   const [open, setOpen] = useState(false);
+  const [rowCount, setRowCount] = useState(0);
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(5);
+
   const columns = [
     {
       field: "id",
       headerName: "ID",
       width: 70,
       renderCell: (params) => {
-        return params.api.getRowIndex(params.row._id) + 1;
+        return page * pageSize + params.api.getRowIndex(params.row._id) + 1;
       },
     },
     { field: "name", headerName: "Name", width: 130 },
@@ -100,47 +104,57 @@ export default function ContactTable() {
     }
   };
 
-  const getContact = async () => {
+  // const getContact = async () => {
+  //   setOpen(true);
+  //   const temp = await getApiHandler(`/`);
+  //   console.log("data: ", temp);
+  //   if (temp.status === 200) {
+  //     setContact(temp.response);
+  //   }
+  //   setOpen(false);
+  // };
+
+  const getContact = async (currentPage = page) => {
+    console.log("akjsdjfkd: ", page);
     setOpen(true);
-    const temp = await getApiHandler(`/`);
+    const temp = await getApiHandler(`/${currentPage * 5}/${pageSize}`);
     console.log("data: ", temp);
     if (temp.status === 200) {
       setContact(temp.response);
+      setRowCount(temp.length);
     }
     setOpen(false);
   };
 
   useEffect(() => {
-    getContact();
-  }, []);
+    getContact(page);
+  }, [page]);
+
   return (
     <MainLayout>
       <Container>
-        {open ? (
-          <Backdrop
-            sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-            open={open}
-          >
-            <CircularProgress color="inherit" />
-          </Backdrop>
-        ) : (
-          <div
-            style={{
-              height: 600,
-              width: "100%",
-            }}
-          >
-            <DataGrid
-              rows={contact}
-              columns={columns}
-              pageSize={10}
-              rowsPerPageOptions={[10]}
-              getRowId={(row) => row._id}
-              density="comfortable"
-              autoPageSize={true}
-            />
-          </div>
-        )}
+        <div
+          style={{
+            height: 600,
+            width: "100%",
+          }}
+        >
+          <DataGrid
+            rows={contact}
+            rowCount={rowCount}
+            loading={open}
+            columns={columns}
+            rowsPerPageOptions={[5]}
+            pagination
+            page={page}
+            pageSize={pageSize}
+            paginationMode="server"
+            getRowId={(row) => row._id}
+            density="comfortable"
+            onPageChange={(newPage) => setPage(newPage)}
+            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          />
+        </div>
       </Container>
     </MainLayout>
   );

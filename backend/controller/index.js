@@ -1,9 +1,23 @@
 require("dotenv").config();
 
-const { postData, getData, deleteData, putData } = require("../Modal");
+const {
+  postData,
+  getData,
+  deleteData,
+  putData,
+  getDataByLimit,
+} = require("../Modal");
 
 const getController = async (req, res) => {
   const result = await getData(req.query.id);
+  res.send(result);
+};
+
+const getByLimitController = async (req, res) => {
+  const skip = req.params.skip;
+  const limit = req.params.limit;
+
+  const result = await getDataByLimit(skip, limit);
   res.send(result);
 };
 
@@ -30,4 +44,5 @@ module.exports = {
   postController,
   deleteController,
   putController,
+  getByLimitController,
 };

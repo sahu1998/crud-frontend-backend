@@ -21,6 +21,21 @@ const getData = async (id = null) => {
   }
 };
 
+const getDataByLimit = async (skip, limit) => {
+  try {
+    const response = await contactModal.find().limit(limit).skip(skip);
+    const length = await contactModal.count();
+    return {
+      response,
+      message: "success",
+      status: 200,
+      length,
+    };
+  } catch (error) {
+    return { response: error, message: "error", status: 400 };
+  }
+};
+
 const postData = async (values) => {
   console.log("post data: ", values);
   try {
@@ -54,4 +69,6 @@ module.exports = {
   getData,
   deleteData,
   putData,
+  getDataByLimit,
+  contactModal,
 };
