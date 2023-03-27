@@ -6,10 +6,13 @@ const {
   deleteData,
   putData,
   getDataByLimit,
+  getDataByQuery,
 } = require("../Modal");
 
 const getController = async (req, res) => {
-  const result = await getData(req.query.id);
+  const skip = req.params.skip;
+  const limit = req.params.limit;
+  const result = await getDataByQuery(req.query.key, skip, limit);
   res.send(result);
 };
 

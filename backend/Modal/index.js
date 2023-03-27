@@ -21,6 +21,40 @@ const getData = async (id = null) => {
   }
 };
 
+const getDataByQuery = async (query, skip, limit) => {
+  try {
+    const response = await contactModal
+      .find({
+        $or: [
+          { name: { $regex: query } },
+          { email: { $regex: query } },
+          { contact: { $regex: query } },
+        ],
+      })
+      .skip(skip)
+      .limit(limit);
+
+    const length = await contactModal
+      .find({
+        $or: [
+          { name: { $regex: query } },
+          { email: { $regex: query } },
+          { contact: { $regex: query } },
+        ],
+      })
+      .count();
+
+    return {
+      response,
+      message: "success",
+      status: 200,
+      length,
+    };
+  } catch (error) {
+    return { response: error, message: "error", status: 400 };
+  }
+};
+
 const getDataByLimit = async (skip, limit) => {
   try {
     const response = await contactModal.find().limit(limit).skip(skip);
@@ -71,4 +105,5 @@ module.exports = {
   putData,
   getDataByLimit,
   contactModal,
+  getDataByQuery,
 };

@@ -1,8 +1,6 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Button, Container } from "@mui/material";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
 import { useState } from "react";
 import { useEffect } from "react";
 import { deleteApiHandler, getApiHandler } from "../../apiHandler";
@@ -11,6 +9,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
 import MainLayout from "../../layout";
 import swal from "sweetalert";
+import SearchBar from "../search-bar";
+import { useDebounce } from "use-debounce-hooks";
 export default function ContactTable() {
   const [contact, setContact] = useState([]);
   const history = useNavigate();
@@ -18,6 +18,8 @@ export default function ContactTable() {
   const [rowCount, setRowCount] = useState(0);
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(5);
+  const [findData, setFindData] = useState();
+  const [search, setSearch, cancel] = useDebounce("", 1500);
 
   const columns = [
     {
@@ -104,15 +106,19 @@ export default function ContactTable() {
     }
   };
 
-  // const getContact = async () => {
-  //   setOpen(true);
-  //   const temp = await getApiHandler(`/`);
-  //   console.log("data: ", temp);
-  //   if (temp.status === 200) {
-  //     setContact(temp.response);
-  //   }
-  //   setOpen(false);
-  // };
+  const searchContact = async (currentPage = page) => {
+    console.log("searching...");
+    setOpen(true);
+    const temp = await getApiHandler(
+      `/get/${currentPage * 5}/${pageSize}/?key=${search}`
+    );
+    console.log("data: ", temp);
+    if (temp.status === 200) {
+      setContact(temp.response);
+      setRowCount(temp.length);
+    }
+    setOpen(false);
+  };
 
   const getContact = async (currentPage = page) => {
     console.log("akjsdjfkd: ", page);
@@ -127,15 +133,24 @@ export default function ContactTable() {
   };
 
   useEffect(() => {
-    getContact(page);
-  }, [page]);
+    console.log("fjkdsjfkdsfs: ", search);
+    if (search) {
+      searchContact();
+    } else {
+      getContact(page);
+    }
+    cancel();
+  }, [search, page]);
 
   return (
     <MainLayout>
       <Container>
+        <div className="py-4">
+          <SearchBar setFindData={setSearch} />
+        </div>
         <div
           style={{
-            height: 600,
+            height: 500,
             width: "100%",
           }}
         >

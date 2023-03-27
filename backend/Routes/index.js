@@ -10,7 +10,7 @@ const { contactModal } = require("../Modal");
 
 const route = express.Router();
 
-route.get("/", getController);
+route.get("/get/:skip/:limit", getController);
 
 route.get("/:skip/:limit", getByLimitController);
 
